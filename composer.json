@@ -1,21 +1,21 @@
 {
-	"name": "cebe/markdown",
-	"description": "A super fast highly extensible markdown parser for PHP",
-	"keywords": ["markdown", "gfm", "markdown-extra", "fast", "extensible"],
-	"homepage": "https://github.com/cebe/markdown#readme",
+	"name": "ntzwbr/markdown",
+	"description": "A new flavor to cebe/markdown inspired by https://github.com/dreikanter/markdown-grid",
+	"keywords": ["markdown", "gfm", "markdown-extra", "fast", "extensible, twitter-bootstrap"],
+	"homepage": "https://github.com/Netzweberei/markdown#readme",
 	"type": "library",
 	"license": "MIT",
 	"authors": [
 		{
-			"name": "Carsten Brandt",
-			"email": "mail@cebe.cc",
-			"homepage": "http://cebe.cc/",
-			"role": "Creator"
+			"name": "Andreas Neumann",
+			"email": "dev@netzweberei.de",
+			"homepage": "http://netzweberei.de/",
+			"role": "Developer"
 		}
 	],
 	"support": {
-		"issues": "https://github.com/cebe/markdown/issues",
-		"source": "https://github.com/cebe/markdown"
+		"issues": "https://github.com/Netzweberei/markdown/issues",
+		"source": "https://github.com/Netzweberei/markdown"
 	},
 	"require": {
 		"php": ">=5.4.0",

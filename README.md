@@ -8,54 +8,50 @@ A super fast, highly extensible markdown parser for PHP
 [![Code Coverage](https://scrutinizer-ci.com/g/cebe/markdown/badges/coverage.png?s=db6af342d55bea649307ef311fbd536abb9bab76)](https://scrutinizer-ci.com/g/cebe/markdown/)
 <!-- [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/cebe/markdown/badges/quality-score.png?s=17448ca4d140429fd687c58ff747baeb6568d528)](https://scrutinizer-ci.com/g/cebe/markdown/) -->
 
-What is this?
+Markdown Grid Extension
 -------------
 
-A set of [PHP][] classes, each representing a [Markdown][] flavor, and a command line tool
-for converting markdown files to HTML files.
+### A new Flavor to cebe/markdown inspired by https://github.com/dreikanter/markdown-grid
 
-The implementation focus is to be **fast** (see [benchmark][]) and **extensible**. You are able to add additional language elements by
-directly hooking into the parser - no (possibly error-prone) post- or pre-processing is needed to extend the language.
-It is also [well tested][] to provide best rendering results also in edge cases where other parsers fail.
-
-Currently the following markdown flavors are supported:
-
-- **The original Markdown** according to <http://daringfireball.net/projects/markdown/syntax> ([try it!](http://markdown.cebe.cc/try?flavor=default)).
-- **Github flavored Markdown** according to <https://help.github.com/articles/github-flavored-markdown> ([try it!](http://markdown.cebe.cc/try?flavor=gfm)).
-- **Markdown Extra** according to <http://michelf.ca/projects/php-markdown/extra/> (currently not fully supported WIP see [#25][], [try it!](http://markdown.cebe.cc/try?flavor=extra))
-- Any mixed Markdown flavor you like because of its highly extensible structure (See documentation below).
-
-[#25]: https://github.com/cebe/markdown/issues/25 "issue #25"
-[well tested]: https://travis-ci.org/cebe/markdown "PHPUnit tests on Travis-CI"
-
-Future plans are to support:
-
-- Smarty Pants <http://daringfireball.net/projects/smartypants/>
-- ... (Feel free to [suggest](https://github.com/cebe/markdown/issues/new) further additions!)
-
-### Who is using it?
-
-- It powers the [API-docs and the definitive guide](http://www.yiiframework.com/doc-2.0/) for the [Yii Framework][] [2.0](https://github.com/yiisoft/yii2).
-
-[Yii Framework]: http://www.yiiframework.com/ "The Yii PHP Framework"
+This is [Markdown](http://daringfireball.net/projects/markdown/) extension
+for grid building. It provides minimal and straightforward syntax to create
+multicolumn text layouts. By default the extension generates [Twitter
+Bootstrap](http://twitter.github.com/bootstrap/) compatible HTML code but
+it is intended to be template-agnostic. It could be configured to use any other
+HTML/CSS framework (e.g. [Skeleton](http://getskeleton.com)) or custom design.
 
 
-Installation
-------------
+### The Syntax
 
-[PHP 5.4 or higher](http://www.php.net/downloads.php) is required to use it.
-It will also run on facebook's [hhvm](http://hhvm.com/).
+Markdown syntax extension is pretty simple. Page source example below defines
+a threee-column page fragment:
 
-Installation is recommended to be done via [composer][] by adding the following to the `require` section in your `composer.json`:
+```markdown
+-- row 5, 2, 5 --
+First column contains couple of paragraphs. Lorem ipsum dolor sit amet,
+consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+et dolore magna aliqua.
 
-```json
-"cebe/markdown": "*"
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+ut aliquip ex ea commodo consequat.
+---
+Some images in the middle column:
+![One](image-1.png)
+![Two](image-2.png)
+---
+And some **more** text in the _third_ column. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+
+[Excepteur](http://excepteur.org ) sint occaecat cupidatat non proident, sunt
+in culpa qui officia deserunt mollit anim id est laborum.
+-- end --
 ```
 
-Run `composer update` afterwards.
+Comma separated list of numbers after the `row` instruction is an optional
+definition for columns width. This example uses 12-column Twitter Bootstrap
+grid, so "5, 2, 5" corresponds to "41.5%, 17%, 41.5%" relatively to the total
+page width.
 
-Alternatively you can clone this repository and use the classes directly.
-In this case you have to include the `Parser.php` and `Markdown.php` files yourself.
 
 
 Usage
@@ -86,6 +82,10 @@ $parser->parse($markdown);
 
 // use markdown extra
 $parser = new \cebe\markdown\MarkdownExtra();
+$parser->parse($markdown);
+
+// use markdown extra with bootstrap-grid
+$parser = new \cebe\markdown\BootstrapMarkdown();
 $parser->parse($markdown);
 
 // parse only inline elements (useful for one-line descriptions)
@@ -158,16 +158,6 @@ Here is the full Help output you will see when running `bin/markdown --help`:
     [2] https://help.github.com/articles/github-flavored-markdown
     [3] http://michelf.ca/projects/php-markdown/extra/
 
-
-Extensions
-----------
-
-Here are some extensions to this library:
-
-- [Bogardo/markdown-codepen](https://github.com/Bogardo/markdown-codepen) - shortcode to embed codepens from http://codepen.io/ in markdown.
-- [kartik-v/yii2-markdown](https://github.com/kartik-v/yii2-markdown) - Advanced Markdown editing and conversion utilities for Yii Framework 2.0.
-- [cebe/markdown-latex](https://github.com/cebe/markdown-latex) - Convert Markdown to LaTeX and PDF
-- ... [add yours!](https://github.com/cebe/markdown/edit/master/README.md#L98)
 
 
 Extending the language
@@ -311,65 +301,9 @@ class MyMarkdown extends \cebe\markdown\Markdown
 ```
 
 
-Acknowledgements
-----------------
-
-I'd like to thank [@erusev][] for creating [Parsedown][] which heavily influenced this work and provided
-the idea of the line based parsing approach.
-
-[@erusev]: https://github.com/erusev "Emanuil Rusev"
-
-FAQ
----
-
-### Why another markdown parser?
-
-While reviewing PHP markdown parsers for choosing one to use bundled with the [Yii framework 2.0][]
-I found that most of the implementations use regex to replace patterns instead
-of doing real parsing. This way extending them with new language elements is quite hard
-as you have to come up with a complex regex, that matches your addition but does not mess
-with other elements. Such additions are very common as you see on github which supports referencing
-issues, users and commits in the comments.
-A [real parser][] should use context aware methods that walk trough the text and
-parse the tokens as they find them. The only implentation that I have found that uses
-this approach is [Parsedown][] which also shows that this implementation is [much faster][benchmark]
-than the regex way. Parsedown however is an implementation that focuses on speed and implements
-its own flavor (mainly github flavored markdown) in one class and at the time of this writing was
-not easily extensible.
-
-Given the situation above I decided to start my own implementation using the parsing approach
-from Parsedown and making it extensible creating a class for each markdown flavor that extend each
-other in the way that also the markdown languages extend each other.
-This allows you to choose between markdown language flavors and also provides a way to compose your
-own flavor picking the best things from all.
-I chose this approach as it is easier to implement and also more intuitive approach compared
-to using callbacks to inject functionallity into the parser.
-
-
-### Where do I report bugs or rendering issues?
-
-Just [open an issue][] on github, post your markdown code and describe the problem. You may also attach screenshots of the rendered HTML result to describe your problem.
-
-
 ### Am I free to use this?
 
 This library is open source and licensed under the [MIT License][]. This means that you can do whatever you want
 with it as long as you mention my name and include the [license file][license]. Check the [license][] for details.
 
 [MIT License]: http://opensource.org/licenses/MIT
-
-Contact
--------
-
-Feel free to contact me using [email](mailto:mail@cebe.cc) or [twitter](https://twitter.com/cebe_cc).
-
-
-[PHP]: http://php.net/ "PHP is a popular general-purpose scripting language that is especially suited to web development."
-[Markdown]: http://en.wikipedia.org/wiki/Markdown "Markdown on Wikipedia"
-[composer]: https://getcomposer.org/ "The PHP package manager"
-[Parsedown]: http://parsedown.org/ "The Parsedown PHP Markdown parser"
-[benchmark]: https://github.com/kzykhys/Markbench#readme "kzykhys/Markbench on github"
-[Yii framework 2.0]: https://github.com/yiisoft/yii2
-[real parser]: http://en.wikipedia.org/wiki/Parsing#Types_of_parser
-[open an issue]: https://github.com/cebe/markdown/issues/new
-[license]: https://github.com/cebe/markdown/blob/master/LICENSE

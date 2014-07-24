@@ -45,13 +45,14 @@ class BootstrapMarkdown extends \cebe\markdown\MarkdownExtra
 
         // detect end of grid
         $endOfBlock = '-- end --';
-        $endOfCol = '---';
+        $endOfCol = '----';
         // consume all lines until $endOfBlock
         for($i = $current + 1, $count = count($lines); $i < $count; $i++) {
             if (rtrim($line = $lines[$i]) !== $endOfBlock)
             {
                 if (rtrim($line = $lines[$i]) == $endOfCol && is_array($cols))
                 {
+                    $block['content'][] = '';
                     $block['content'][] = '<!--mdtb:endcol-->';
                     $block['content'][] = '<!--mdtb:col'.current($cols).'-->';
                     next($cols);
@@ -75,7 +76,7 @@ class BootstrapMarkdown extends \cebe\markdown\MarkdownExtra
 
         $block['content'][] = '<!--mdtb:endrow-->';
 
-        return [$block, $i];
+        return [$block, count($block['content'])+1];
     }
 
     protected function renderBootstrapGrid($block)
@@ -111,7 +112,7 @@ class BootstrapMarkdown extends \cebe\markdown\MarkdownExtra
                     $block['content'][] = '</div>';
                     break;
             }
-            return [$block, $current++];
+            return [$block, $current];
         }
 
         return parent::consumeHtml($lines, $current);

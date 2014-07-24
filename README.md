@@ -24,21 +24,21 @@ HTML/CSS framework (e.g. [Skeleton](http://getskeleton.com)) or custom design.
 ### The Syntax
 
 Markdown syntax extension is pretty simple. Page source example below defines
-a threee-column page fragment:
+a three-column page fragment:
 
 ```markdown
--- row 5, 2, 5 --
+-- row 5,2,5 --
 First column contains couple of paragraphs. Lorem ipsum dolor sit amet,
 consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
 et dolore magna aliqua.
 
 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
 ut aliquip ex ea commodo consequat.
----
+----
 Some images in the middle column:
 ![One](image-1.png)
 ![Two](image-2.png)
----
+----
 And some **more** text in the _third_ column. Duis aute irure dolor in
 reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
 

@@ -1,7 +1,7 @@
 {
 	"name": "ntzwbr/markdown",
 	"description": "A new flavor to cebe/markdown inspired by https://github.com/dreikanter/markdown-grid",
-	"keywords": ["markdown", "gfm", "markdown-extra", "fast", "extensible, twitter-bootstrap"],
+	"keywords": ["markdown", "gfm", "markdown-extra", "fast", "extensible", "twitter-bootstrap"],
 	"homepage": "https://github.com/Netzweberei/markdown#readme",
 	"type": "library",
 	"license": "MIT",

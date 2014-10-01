@@ -15,7 +15,6 @@ class BootstrapMarkdown extends \cebe\markdown\MarkdownExtra
     {
         $matches = array();
         preg_match('/-- row .*--/', $lines[$current], $matches);
-//        print_r($matches);
         if(count($matches)){
             return 'bootstrapGrid';
         }
@@ -52,7 +51,7 @@ class BootstrapMarkdown extends \cebe\markdown\MarkdownExtra
             {
                 if (rtrim($line = $lines[$i]) == $endOfCol && is_array($cols))
                 {
-                    $block['content'][] = '';
+//                    $block['content'][] = '';
                     $block['content'][] = '<!--mdtb:endcol-->';
                     $block['content'][] = '<!--mdtb:col'.current($cols).'-->';
                     next($cols);
@@ -75,8 +74,7 @@ class BootstrapMarkdown extends \cebe\markdown\MarkdownExtra
         }
 
         $block['content'][] = '<!--mdtb:endrow-->';
-
-        return [$block, count($block['content'])+1];
+        return [$block, $i];
     }
 
     protected function renderBootstrapGrid($block)

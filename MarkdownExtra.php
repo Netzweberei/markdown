@@ -216,6 +216,17 @@ class MarkdownExtra extends Markdown
 				$offset += strlen($matches[0]);
 			}
 
+            preg_match_all('/[A-z0-9]+=[A-z0-9_-\s]+/', $title, $linkAttributes);
+            if(count($linkAttributes[0])){
+                $_titleReplacements = array('"'=>'',"'"=>'');
+                foreach($linkAttributes[0] as $_attrib) {
+                    list($_prop, $_val) = explode('=', $_attrib);
+                    $attributes .= ' '.$_prop.'="'.$_val.'"';
+                    $_titleReplacements[$_attrib] = '';
+                }
+                $title = strtr($title, $_titleReplacements);
+            }
+
 			$link = '<a href="' . htmlspecialchars($url, ENT_COMPAT | ENT_HTML401, 'UTF-8') . '"'
 				. (empty($title) ? '' : ' title="' . htmlspecialchars($title, ENT_COMPAT | ENT_HTML401, 'UTF-8') . '"')
 				. $attributes . '>' . $this->parseInline($text) . '</a>';

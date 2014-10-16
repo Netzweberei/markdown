@@ -216,6 +216,8 @@ class MarkdownExtra extends Markdown
 				$offset += strlen($matches[0]);
 			}
 
+            $title = strtr($title, array("'"=>'','"'=>''));
+
             preg_match_all('/[A-z0-9]+=[A-z0-9_-\s]+/', $title, $linkAttributes);
             if(count($linkAttributes[0])){
                 $_titleReplacements = array('"'=>'',"'"=>'');

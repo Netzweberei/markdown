@@ -218,9 +218,9 @@ class MarkdownExtra extends Markdown
 
             $title = strtr($title, array("'"=>'','"'=>''));
 
-            preg_match_all('/[A-z0-9]+=[A-z0-9_-\s]+/', $title, $linkAttributes);
+            preg_match_all('/[A-z0-9]+=[A-z0-9:_-\s]+/', $title, $linkAttributes);
             if(count($linkAttributes[0])){
-                $_titleReplacements = array('"'=>'',"'"=>'');
+                $_titleReplacements = array('"'=>'',"'"=>'',','=>'');
                 foreach($linkAttributes[0] as $_attrib) {
                     list($_prop, $_val) = explode('=', $_attrib);
                     $attributes .= ' '.$_prop.'="'.$_val.'"';

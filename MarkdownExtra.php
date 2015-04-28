@@ -223,8 +223,12 @@ class MarkdownExtra extends Markdown
                 $_titleReplacements = array('"'=>'',"'"=>'',','=>'');
                 foreach($linkAttributes[0] as $_attrib) {
                     list($_prop, $_val) = explode('=', $_attrib);
-                    $attributes .= ' '.$_prop.'="'.$_val.'"';
-                    $_titleReplacements[$_attrib] = '';
+                    if($_prop == 'title'){
+                        $title = $_val;
+                    } else {
+                        $attributes .= ' '.$_prop.'="'.$_val.'"';
+                        $_titleReplacements[$_attrib] = '';
+                    }
                 }
                 $title = strtr($title, $_titleReplacements);
             }
